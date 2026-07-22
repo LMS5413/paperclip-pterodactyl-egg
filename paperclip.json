@@ -97,6 +97,25 @@
             "user_editable": true,
             "rules": "boolean|required",
             "field_type": "boolean"
+        },
+        {
+            "name": "Base URL Mode",
+            "description": "Choose how Paperclip determines the public URL used for authentication. Select auto to detect it from incoming requests, or explicit to always use the configured Public Base URL.",
+            "env_variable": "PAPERCLIP_AUTH_BASE_URL_MODE",
+            "default_value": "auto",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "string|nullable|in:auto,explicit",
+            "field_type": "select"
+        },
+        {
+            "name": "Public Base URL",
+            "description": "Public URL used for authentication callbacks and redirects when Base URL Mode is set to explicit. Enter the complete external address, for example https://paperclip.example.com.",
+            "env_variable": "PAPERCLIP_AUTH_PUBLIC_BASE_URL",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "string|nullable",
+            "field_type": "string"
         }
     ]
 }

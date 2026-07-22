@@ -34,6 +34,8 @@ fi
 
 export HOST="0.0.0.0"
 export PORT="${SERVER_PORT:-3100}"
+export PAPERCLIP_PUBLIC_URL=${SERVER_IP}:${PORT}
+echo "Server IP: ${SERVER_IP}" >&2
 
 case "${OPENCODE_ALLOW_ALL_MODELS:-true}" in
     1|true|TRUE|yes|YES|on|ON)
