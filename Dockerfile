@@ -9,7 +9,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends libnss-wrapper \
  && rm -rf /var/lib/apt/lists/*
 
-RUN usermod -l container -d /home/container -m node \
+RUN usermod -l container -d /home/container -m node -g ${USER_GID} -u ${USER_UID} \
  && groupmod -n container node \
  && mkdir -p /home/container \
  && chown -R container:container /home/container

@@ -12,6 +12,10 @@ if ! getent passwd "$CURRENT_UID" >/dev/null 2>&1; then
     cp /etc/passwd "$NSS_WRAPPER_PASSWD"
     cp /etc/group "$NSS_WRAPPER_GROUP"
 
+    printf 'pterodactyl:x:%s:%s:Paperclip:/home/container:/bin/sh\n' \
+        "$CURRENT_UID" "$CURRENT_GID" >> "$NSS_WRAPPER_PASSWD"
+    printf 'pterodactyl:x:%s:\n' "$CURRENT_GID" >> "$NSS_WRAPPER_GROUP"
+
     NSS_WRAPPER_LIBRARY=$(find /usr/lib -name libnss_wrapper.so -print -quit)
     if [ -z "$NSS_WRAPPER_LIBRARY" ]; then
         echo "Error: libnss_wrapper.so was not found." >&2
@@ -19,6 +23,13 @@ if ! getent passwd "$CURRENT_UID" >/dev/null 2>&1; then
     fi
 
     export LD_PRELOAD="$NSS_WRAPPER_LIBRARY${LD_PRELOAD:+:$LD_PRELOAD}"
+
+    if ! node -e 'require("node:os").userInfo()' >/dev/null 2>&1; then
+        echo "Error: the runtime UID could not be resolved through libnss-wrapper." >&2
+        exit 1
+    fi
+
+    echo "Mapped runtime UID:GID ${CURRENT_UID}:${CURRENT_GID} to the pterodactyl user."
 fi
 
 export HOST="0.0.0.0"
