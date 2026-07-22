@@ -22,15 +22,15 @@
     },
     "scripts": {
         "installation": {
-            "script": "# Nothing",
+            "script": "#!/bin/ash\n\nexit 0",
             "container": "ghcr.io\/pterodactyl\/installers:alpine",
-            "entrypoint": "bash"
+            "entrypoint": "ash"
         }
     },
     "variables": [
         {
             "name": "Database URL",
-            "description": "PostgreSQL connection URL used by Paperclip. The database must be reachable from this container.",
+            "description": "Optional PostgreSQL connection URL. Leave this field empty to use Paperclip's built-in PostgreSQL database. External databases must be reachable from this container.",
             "env_variable": "DATABASE_URL",
             "default_value": "",
             "user_viewable": true,
