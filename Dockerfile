@@ -18,5 +18,5 @@ COPY --chown=container:container --chmod=755 entrypoint.sh /entrypoint.sh
 
 USER container
 
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["node", "--import", "/app/server/node_modules/tsx/dist/loader.mjs", "/app/server/dist/index.js"]
+ENTRYPOINT []
+CMD ["/bin/bash", "/entrypoint.sh"]
