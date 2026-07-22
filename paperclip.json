@@ -1,0 +1,102 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2026-07-22T16:20:17+02:00",
+    "name": "Paperclip",
+    "author": "LMS5413",
+    "description": "Run Paperclip, an open-source orchestration platform for managing AI agents, teams, goals, budgets, and automated workflows.",
+    "features": null,
+    "docker_images": {
+        "PaperClip": "ghcr.io/lms5413/paperclip-egg-image:latest"
+    },
+    "file_denylist": [],
+    "startup": "node --import /app/server/node_modules/tsx/dist/loader.mjs /app/server/dist/index.js",
+    "config": {
+        "files": "{}",
+        "startup": "{\"done\": \"Paperclip server running at\"}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "# Nothing",
+            "container": "ghcr.io\/pterodactyl\/installers:alpine",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Database URL",
+            "description": "PostgreSQL connection URL used by Paperclip. The database must be reachable from this container.",
+            "env_variable": "DATABASE_URL",
+            "default_value": "postgres:\/\/paperclip:paperclip@localhost:5432\/paperclip",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Authentication Secret",
+            "description": "Secret used to sign authentication sessions. Replace the default with a long, unique, randomly generated value.",
+            "env_variable": "BETTER_AUTH_SECRET",
+            "default_value": "paperclip-dev-tool-action-signing-secret-change-me",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Tool Action Signing Secret",
+            "description": "Secret used to sign and verify Paperclip tool actions. Replace the default with a different long, randomly generated value.",
+            "env_variable": "PAPERCLIP_TOOL_ACTION_SIGNING_SECRET",
+            "default_value": "paperclip-dev-secret",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Discord Webhook URL",
+            "description": "Optional Discord webhook URL used to send notifications. Leave this field empty to disable Discord notifications.",
+            "env_variable": "DISCORD_WEBHOOK_URL",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Deployment Mode",
+            "description": "Choose how users authenticate. Use authenticated for remotely accessible deployments; local_trusted is intended only for trusted local environments.",
+            "env_variable": "PAPERCLIP_DEPLOYMENT_MODE",
+            "default_value": "authenticated",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "string|required|in:authenticated,local_trusted",
+            "field_type": "select"
+        },
+        {
+            "name": "Deployment Exposure",
+            "description": "Choose whether the Paperclip instance is private to your network or publicly accessible. Public deployments should always use HTTPS and strong authentication.",
+            "env_variable": "PAPERCLIP_DEPLOYMENT_EXPOSURE",
+            "default_value": "private",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "string|required|in:private,public",
+            "field_type": "select"
+        },
+        {
+            "name": "Allow All OpenCode Models",
+            "description": "Allow Paperclip agents using the OpenCode adapter to access every model available through OpenCode.",
+            "env_variable": "OPENCODE_ALLOW_ALL_MODELS",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "boolean|required",
+            "field_type": "boolean"
+        }
+    ]
+}
