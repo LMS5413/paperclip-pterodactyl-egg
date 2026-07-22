@@ -32,10 +32,10 @@
             "name": "Database URL",
             "description": "PostgreSQL connection URL used by Paperclip. The database must be reachable from this container.",
             "env_variable": "DATABASE_URL",
-            "default_value": "postgres:\/\/paperclip:paperclip@localhost:5432\/paperclip",
+            "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string",
+            "rules": "nullable|string",
             "field_type": "text"
         },
         {
