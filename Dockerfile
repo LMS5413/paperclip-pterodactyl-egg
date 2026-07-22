@@ -1,6 +1,13 @@
 FROM ghcr.io/paperclipai/paperclip:latest
 
+ARG USER_UID=1000
+ARG USER_GID=1000
+
 USER root
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libnss-wrapper \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN usermod -l container -d /home/container -m node \
  && groupmod -n container node \
@@ -20,6 +27,16 @@ RUN find /app/node_modules/.pnpm \
                 fi; \
             done \
         ' /bin/sh {} +
+
+
+RUN find /app/node_modules/.pnpm \
+        -type f \
+        -path '*/node_modules/@embedded-postgres/linux-*/native/bin/*' \
+        -exec chmod 755 {} + \
+ && find /app/node_modules/.pnpm \
+        -type f \
+        -path '*/node_modules/embedded-postgres/dist/index.js' \
+        -exec sed -i "/await fs.chmod(postgres, '755');/d; /await fs.chmod(initdb, '755');/d" {} +
 
 
 RUN native_helper=/app/packages/db/src/embedded-postgres-native.ts \
